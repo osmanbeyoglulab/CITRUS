@@ -14,11 +14,14 @@ To setup running environment, here are the easy steps to follow.
 1. Install Anaconda: Download specific Anaconda installer according to your operating system, and follow the installer's prompt to finish installation. Please check Anaconda documentation here
 https://docs.anaconda.com/anaconda/install/index.html
 2. Create an conda environment and activate it by executing
+```sh
     conda create --name myenv
     conda activate myenv
+```
 3. Install PyTorch in the conda enviroment. The install command can be automatially genereated based on your computer hardware configuration by visiting PyTorch support site:https://pytorch.org/get-started/locally/. For example, on Window system with CUDA support, you may install PyTorch by running
+```sh
     conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
-    
+ ```   
  ## Usage
 
 pySPaRTAN module has 3 input datasets, and 2 generated ouputs
