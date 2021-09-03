@@ -3,7 +3,7 @@
 The repository contains the implementation in PyTorch of CITRUS model in the paper -----. CITRUS(Chromatin-informed Inference of Transcriptional Regulators Using Self-attention mechanism) is a partially interpretable deep neural network modeling the impact of somatic alterations on cellular states onto downstream gene expression programs.The model uses a layer of hidden nodes to explicitly represent the state of transcription factors (TFs)
 
 ## Data
-We have packaged all required data into a .pkl file for fast processing and ease of use. The file include Somatica alteration gene matrix, gene expression matrix, TF and target gene corresponding matrix, tumor and cancer types information which can be downloaded from : ......
+We have packaged all required data into a .pkl file for fast processing and ease of use. The file include Somatica alteration gene matrix, gene expression matrix, TF and target gene matrix, tumor and cancer types information. The data can be downloaded from : ......
 
 ## Prerequisites
 The code runs on python 3.7 and above. Besides python 3, some other packages such as PyTorch, Pandas, Numpy, scikit-learn, Scipy are used. We have tested our code on torch verion 1.2.0 (Windows), torch version 1.5.1+cu101 (Linus), torch version .....(Max)
@@ -11,41 +11,15 @@ The code runs on python 3.7 and above. Besides python 3, some other packages suc
 It is recomended to installl PyTorch through Anaconda package manager, since it install all denpendencies. If you installed the Anaconda distribution of Python 3.7+, Pandas, Numpy, scikit-learn, Scipy come pre-installed and no further installation steps are necessary.
 
 To setup running environment, here are the easy steps to follow.
-
-## In 
-Download the reporsitory from https://github.com/osmanbeyoglulab/SPaRTAN
-
-Install python3.7 or later. pySpaRTAN used the following dependencies as well: pandas, numpy, scipy, sklearn, matplotlib. 
-
-You can install python dependencies by the following commands:
-```sh
-pip install pandas
-pip install numpy
-pip install scipy
-pip install -U scikit-learn
-pip install matplotlib
-```
-Cython is not reqired to be installed unless the pre-built Cython extensions do not work on your system. 
-
-Our codes have been tested on Linux, Mac, and Windows systems. Please see Prerequisites.xlsx for the version of packages we tested on each operating system.
-
-### Cython extension compilation
-
-If the Cython extensions, which are platform-dependent binary modules, are not compatible with your operating system, additional built of those Cython extensions are needed on your own machine. 
-
-First, install Cython by running the command
-```sh
-pip install "cython>0.21"    
-```
-Cython requires a C compiler to be present on the system. Please check [here](https://cython.readthedocs.io/en/latest/src/quickstart/install.html) for C compiler installation on various operating systems
-
-After installing Cython and C compiler, navigate to the directory pySPaRTAN and type in the command:
-```sh
-python setup.py build_ext --inplace
-```
-This will generate new Cython extension .so files (or .pyd files on Windows). The previously downloaded .so and .pyd files are renamed to "*_old.so" and "*_old.pyd" 
-
-## Usage
+1. Install Anaconda: Download specific Anaconda installer according to your operating system, and follow the installer's prompt to finish installation. Please check Anaconda documentation here
+https://docs.anaconda.com/anaconda/install/index.html
+2. Create an conda environment and activate it by executing
+    conda create --name myenv
+    conda activate myenv
+3. Install PyTorch in the conda enviroment. The install command can be automatially genereated based on your computer hardware configuration by visiting PyTorch support site:https://pytorch.org/get-started/locally/. For example, on Window system with CUDA support, you may install PyTorch by running
+    conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
+    
+ ## Usage
 
 pySPaRTAN module has 3 input datasets, and 2 generated ouputs
 
