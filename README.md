@@ -3,7 +3,7 @@
 The repository contains the implementation in PyTorch of CITRUS model in the paper -----. CITRUS(Chromatin-informed Inference of Transcriptional Regulators Using Self-attention mechanism) is a partially interpretable deep neural network modeling the impact of somatic alterations on cellular states onto downstream gene expression programs.The model uses a layer of hidden nodes to explicitly represent the state of transcription factors (TFs)
 
 ## Data
-We have packaged all required data into a .pkl file for fast processing and ease of use. The file include Somatica alteration gene matrix, gene expression matrix, TF and target gene matrix, tumor and cancer types information. The data can be downloaded from : ......
+We have packaged all required data into a .pkl file for fast processing and ease of use. The file include preprocessed Somatica alteration gene matrix, gene expression matrix,   cancer types, and barcodes of 5803 cancer samples as well as TF and target gene correspondance. The data can be downloaded from : ......
 
 ## Prerequisites
 The code runs on python 3.7 and above. Besides python 3, some other packages such as PyTorch, Pandas, Numpy, scikit-learn, Scipy are used. We have tested our code on torch verion 1.2.0 (Windows), torch version 1.5.1+cu101 (Linus), torch version .....(Max)
