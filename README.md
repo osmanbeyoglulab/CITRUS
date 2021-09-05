@@ -28,6 +28,6 @@ Download the data into ./data directory
 Execute the command
 ```sh
 python test_run.py > run.log
-```sh
+```
 
 After training is down. The model evaluates the performance by checking the correlation betweenbetween overserved gene expression and predicted gene expression on the test set which is not shown in the training process. You can view the results in the run.log file
