@@ -24,10 +24,11 @@ https://docs.anaconda.com/anaconda/install/index.html
     conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
  ```  
  ## Replicate experiments
-Download the data into ./data directory
-Execute the command
+Download the data into ./data directory and execute the command
 ```sh
 python test_run.py > run.log
 ```
 
-After training is down. The model evaluates the performance by checking the correlation betweenbetween overserved gene expression and predicted gene expression on the test set which is not shown in the training process. You can view the results in the run.log file
+Data is splited into two parts. Training is done on training. The model evaluates the performance by checking the correlation between overserved gene expression and predicted gene expression on the testing set. The results and training process outputs are shown in the run.log file
+
+
