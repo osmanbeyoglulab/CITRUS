@@ -33,5 +33,14 @@ python test_run.py > run.log
 
 Data is splited into two parts. Model is trained on training set. The performance is evaluated on testing set by checking the correlation between overserved gene expression and predicted gene expression. You an check the results and training process outputs in the run.log file.
 
-
+We use ensemble method to furthur stablize TF activity which is a hidden layer before the output gene expression layer. Run the model 10 times by execute the command
+```sh
+for i in 1 2 3 4 5 6 7 8 9 10; do
+    python test.py --tag i 
+done
+```
+Then run 
+```sh
+    python TF_ensemble.py
+```
 
