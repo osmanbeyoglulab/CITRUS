@@ -29,6 +29,7 @@ Download the data into ./data directory and execute the command
 python test_run.py > run.log
 ```
 
-Data is splited into two parts. Training is done on training. The model evaluates the performance by checking the correlation between overserved gene expression and predicted gene expression on the testing set. The results and training process outputs are shown in the run.log file
+Data is splited into two parts. Model is trained on training set. The performance is evaluated on testing set by checking the correlation between overserved gene expression and predicted gene expression. The results and training process outputs are shown in the run.log file.
+
 
 
