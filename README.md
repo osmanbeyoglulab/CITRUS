@@ -58,6 +58,6 @@ done
 ```
 Then run 
 ```sh
-    python TF_ensemble.py ... 
+    python TF_ensemble.py
 ```
 
