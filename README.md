@@ -50,13 +50,14 @@ dataset_out = {
 }
 ```
 
-We use ensemble method to furthur stablize TF activity which is a hidden layer before the output gene expression layer. Run the model 10 times by execute the command
+We use ensemble method to furthur stablize TF activity which is a hidden layer before the output gene expression layer. 
+To generate ensembled TF activity, First run the model 10 times by execute the command
 ```sh
 for (( i = 1; N <= 10; i++ ))
     python test.py --tag i 
 done
 ```
-After getting the output results of all runs, execute the following command to generate the ensembled TF activity
+After getting the output results of all runs, Then execute the following command to generate the ensembled TF activity
 ```sh
     python TF_ensemble.py
 ```
