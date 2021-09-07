@@ -56,7 +56,7 @@ for (( i = 1; N <= 10; i++ ))
     python test.py --tag i 
 done
 ```
-Then run 
+After getting the output results of all runs, execute the following command to generate the ensembled TF activity
 ```sh
     python TF_ensemble.py
 ```
