@@ -3,11 +3,11 @@
 The repository contains the PyTorch implementation of CITRUS model in the paper -----. CITRUS(Chromatin-informed Inference of Transcriptional Regulators Using Self-attention mechanism) is a partially interpretable deep neural network modeling the impact of somatic alterations on cellular states onto downstream gene expression programs. The model uses a layer of hidden nodes to explicitly represent the state of transcription factors (TFs)
 
 ## Data
-There are 3 major datasets needed to run CITRUS model: Somatica alteration gene matrix(SGA), gene expression matrix (GExp),  and TF-target gene matrix. Our SGA and GExp come from 5803 TCGA samples including 17 cancer types. We transformed the sparse binary SGA to index lists to facilitate gene embedding. We packaged those matrices as well as cancer type, tumor barcode of each sample into a pickle file for fast processing and convenient delivery. 
+There are 3 major datasets for CITRUS model: Somatica alteration gene matrix(SGA), gene expression matrix (GExp),  and TF-target gene matrix. Our SGA and GExp come from 5803 TCGA samples including 17 cancer types. We transformed the sparse binary SGA to index lists to facilitate gene embedding. We packaged those matrices as well as cancer type, tumor barcode of each sample into a pickle file for fast processing and convenient delivery. 
 Data can be downloaded from ....
 
 ## Prerequisites
-The code runs on python 3.7 and above. Besides python 3, some other packages such as PyTorch, Pandas, Numpy, scikit-learn, Scipy are used. We have tested our code on torch verion 1.2.0 (Windows), torch version 1.5.1+cu101 (Linus), torch version .....(Max)
+The code runs on python 3.7 and above. Besides python 3, some other packages such as PyTorch, Pandas, Numpy, scikit-learn, Scipy are used. We have tested our code on torch verion 1.2.0 (Windows), torch version 1.5.1+cu101 (Linus), torch version .....(Mac)
 
 It is recomended to installl PyTorch through Anaconda package manager since it installs all dependencies. If you installed the Anaconda distribution of Python 3.7 and above, Pandas, Numpy, scikit-learn, Scipy come pre-installed and no further installation steps are necessary.
 
