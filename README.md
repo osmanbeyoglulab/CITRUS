@@ -5,8 +5,9 @@ The repository contains the PyTorch implementation of CITRUS model in the paper 
 CITRUS(Chromatin-informed Inference of Transcriptional Regulators Using Self-attention mechanism) is a partially interpretable deep neural network modeling the impact of somatic alterations on cellular states onto downstream gene expression patterns within context-speciﬁc transcriptional programs.  The model follows an overall encoder-decoder architecture, while the encoder module employs a self-attention mechanism to model the contextual functional impact of somatic alterations in a tumor-specific manner and the decoder uses a layer of hidden nodes to explicitly represent the state of transcription factors (TFs).
 
 ## Data
-There are 3 major datasets for CITRUS model: Somatica alteration gene matrix(SGA), gene expression matrix (GExp),  and TF-target gene matrix. Our SGA and GExp come from 5803 TCGA samples including 17 cancer types. We transformed the sparse binary SGA to index lists to facilitate gene embedding. We packaged those matrices as well as cancer type, tumor barcode of each sample into a pickle file for fast processing and convenient delivery. 
-data which can be downloaded from ....
+    There are three major datasets used to train CITRUS model: Somatica alteration gene matrix(SGA), gene expression matrix (EPA),  and TF-target gene matrix. They included 5803 samples with seventeen different tumor types from TCGA. SGA is originally a binary matrix containing 11998 genes with 1 as having distinct mutation or copy number alteration and 0 as no mutation. We transformed the sparse binary SGA into index lists to facilitate gene embedding. EPA contains continuous gene expression with filtered 5541 genes. We selected top 2500 variant genes for each cancer type and get the union of genes from all cancer types, and then intersect with the genes appeard in TF-target gene profile.  We packaged those matrices as well as cancer type, tumor barcode of each sample into a pickle file for fast processing and convenient delivery. 
+    
+Final dataset of the pikle file can be downloaded from https://sites.pitt.edu/~xim33/CITRUS
 
 ## Prerequisites
 The code runs on python 3.7 and above. Besides python 3, some other packages such as PyTorch, Pandas, Numpy, scikit-learn, Scipy are used. We have tested our code on torch verion 1.2.0 (Windows), torch version 1.5.1+cu101 (Linus), torch version .....(Mac)
@@ -62,5 +63,151 @@ After getting the output results of all runs, Then execute the following command
 ```sh
 python TF_ensemble.py
 ```
- ## Explore CITRUS model
- 
+We uploaded ensembled TF activities generated from 10 runs of CITURS to the website https://sites.pitt.edu/~xim33/CITRUS
+
+## Explore CITRUS model
+
+** Hyperparameters and arguments**
+To assist CITRUS usage we add the following input arguments
+```sh
+parser.add_argument(
+    "--input_dir", 
+    help="directory of input files", 
+    type=str, 
+    default="../data"
+)
+parser.add_argument(
+    "--output_dir",
+    help="directory of output files",
+    type=str,
+    default="./output",
+)
+parser.add_argument(
+    "--dataset_name",
+    help="the dataset name loaded and saved",
+    type=str,
+    default="dataset_PANunion2500_17_sga_dropped_seperated_rmNotImpt_0.04_with_holdout_new",
+)
+parser.add_argument(
+    "--tag", 
+    help="a tag passed from command line", 
+    type=str, 
+    default=""
+)
+parser.add_argument(
+    "--run_count", 
+    help="the count for training", 
+    type=str, 
+    default="1"
+parser.add_argument(
+    "--train_model",
+    help="whether to train model or load model",
+    type=bool_ext,
+    default=True,
+)
+```
+For example, you can specify your own dataset name and location by running the command:
+```sh
+python test_run.py --dataset_name "mydataset" --input_dir "path/to/data"
+```
+The above demo used default hyperparameters. CITRUS has more than 10 hyperparmaeters which can be turned to get the optimized results.
+
+```sh
+parser.add_argument(
+    "--embedding_size",
+    help="embedding dimension of genes and tumors",
+    type=int,
+    default=512,
+)
+parser.add_argument(
+    "--hidden_size", 
+    help="hidden layer dimension of MLP decoder", 
+    type=int, 
+    default=400
+)
+parser.add_argument(
+    "--attention_size", 
+    help="size of attention parameter beta_j", 
+    type=int, 
+    default=256
+)
+parser.add_argument(
+    "--attention_head", 
+    help="number of attention heads", 
+    type=int, 
+    default=32
+)
+parser.add_argument(
+    "--learning_rate", 
+    help="learning rate for Adam", 
+    type=float, 
+    default=1e-3
+)
+parser.add_argument(
+    "--max_iter", 
+    help="maximum number of training iterations", 
+    type=int, 
+    default=1
+)
+parser.add_argument(
+    "--batch_size", 
+    help="training batch size", 
+    type=int, 
+    default=100
+)
+parser.add_argument(
+    "--test_batch_size", 
+    help="test batch size", 
+    type=int, 
+    default=100
+)
+parser.add_argument(
+    "--dropout_rate", 
+    help="dropout rate", 
+    type=float, 
+    default=0.2
+)
+parser.add_argument(
+    "--input_dropout_rate", 
+    help="dropout rate", 
+    type=float, 
+    default=0.2
+)
+parser.add_argument(
+    "--weight_decay", 
+    help="coefficient of l2 regularizer", 
+    type=float, 
+    default=1e-5
+)
+parser.add_argument(
+    "--activation",
+    help="activation function used in hidden layer",
+    type=str,
+    default="tanh",
+)
+parser.add_argument(
+    "--patience", 
+    help="earlystopping patience", 
+    type=int, 
+    default=30
+)
+parser.add_argument(
+    "--deg_normalization", 
+    help="how to normalize deg", 
+    type=str, 
+    default="scaleRow"
+)
+parser.add_argument(
+    "--attention",
+    help="whether to use attention mechanism or not",
+    type=bool_ext,
+    default=True,
+)
+parser.add_argument(
+    "--cancer_type",
+    help="whether to use cancer type or not",
+    type=bool_ext,
+    default=True,
+)
+
+```
