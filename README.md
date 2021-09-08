@@ -1,4 +1,4 @@
-# Introduction
+## Introduction
 
 The repository contains the PyTorch implementation of CITRUS model in the paper -----. 
 
