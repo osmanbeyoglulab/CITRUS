@@ -69,7 +69,7 @@ We uploaded ensembled TF activities generated from 10 runs of CITURS to the webs
 
 **Hyperparameters and arguments**
 
-To assist CITRUS usage we add the following input arguments
+To assist CITRUS usage we established the following input arguments
 
 ```sh
 parser.add_argument(
