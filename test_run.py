@@ -1,13 +1,18 @@
-""" Demo of training and evaluating CITRUS model and its variants.
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# =============================================================================
+# Author : "Yifeng Tao", "Xiaojun Ma"
+# Finalized Date: March 2021
+# =============================================================================
+""" 
+Demo of training and evaluating CITRUS model and its variants.
 
-        """
+"""
 import os
 import argparse
 from utils import bool_ext, load_dataset, split_dataset, evaluate, checkCorrelations
 from models import CITRUS
 import pickle
-
-__author__ = "Yifeng Tao", "Xiaojun Ma"
 
 
 parser = argparse.ArgumentParser()
@@ -22,7 +27,7 @@ parser.add_argument(
     "--input_dir", 
     help="directory of input files", 
     type=str, 
-    default="./data"
+    default="../data"
 )
 parser.add_argument(
     "--output_dir",
@@ -64,7 +69,7 @@ parser.add_argument(
     "--max_iter", 
     help="maximum number of training iterations", 
     type=int, 
-    default=100
+    default=1000
 )
 parser.add_argument(
     "--max_fscore",
@@ -148,7 +153,7 @@ parser.add_argument(
     "--dataset_name",
     help="the dataset name loaded and saved",
     type=str,
-    default="dataset_PANunion2500_17_sga_dropped_seperated_rmNotImpt_0.04",
+    default="dataset_PANunion2500_17_sga_dropped_seperated_rmNotImpt_0.04_with_holdout_new",
 )
 parser.add_argument(
     "--tag", 
@@ -167,7 +172,7 @@ args = parser.parse_args()
 
 
 print("Loading dataset...")
-dataset = load_dataset(
+dataset, dataset_test = load_dataset(
     input_dir=args.input_dir,
     mask01=args.mask01,
     dataset_name=args.dataset_name,
@@ -204,17 +209,13 @@ if args.train_model:  # train from scratch
     model.load_model(os.path.join(args.output_dir, "trained_model.pth"))
 else:  # or directly load trained model
     model.load_model(os.path.join(args.input_dir, "trained_model.pth"))
+    
 # evaluation
 print("Evaluating...")
 labels, preds, _, _, _, _, _ = model.test(
     test_set, test_batch_size=args.test_batch_size
 )
-corr_spearman, corr_pearson = evaluate(labels, preds, epsilon=model.epsilon)
-print(
-    "spearman correlation: %.3f, pearson correlation: %.3f"
-    % (corr_spearman, corr_pearson)
-)
-
+print("Performance on validation set:\n")
 checkCorrelations(labels, preds)
 
 # get training attn_wt and others
@@ -222,26 +223,30 @@ labels, preds, hid_tmr, emb_tmr, emb_sga, attn_wt, tmr = model.test(
     dataset, test_batch_size=args.test_batch_size
 )
 
+# predict on holdout and evaluate the performance
+labels_test, preds_test, _, _, _, _, tmr_test = model.test(dataset_test, test_batch_size=args.test_batch_size)
+print("Performance on holdout test set:\n")
+checkCorrelations(labels_test, preds_test)
+
 # get gene emb
 gene_emb = model.layer_sga_emb.weight.data.cpu().numpy()
-# np.savetxt(os.path.join(args.output_dir, "gene_emb.csv"), gene_emb, delimiter=',')
 
 dataset_out = {
-    "labels": labels,
-    "preds": preds,  # dataset['deg'],
-    "hid_tmr": hid_tmr,
-    "emb_tmr": emb_tmr,
-    "tmr": tmr,
-    "emb_sga": emb_sga,
-    "attn_wt": attn_wt,
-    "can": dataset["can"],
-    "gene_emb": gene_emb,
-    "tf_gene": model.layer_w_2.weight.data.cpu().numpy(),
+    "labels": labels,         # measured exp 
+    "preds": preds,           # predicted exp
+    "hid_tmr": hid_tmr,       # TF activity
+    "emb_tmr": emb_tmr,       # tumor embedding
+    "tmr": tmr,               # tumor list
+    "emb_sga": emb_sga,       # straitified tumor embedding
+    "attn_wt": attn_wt,       # attention weight
+    "can": dataset["can"],    # cancer type list
+    "gene_emb": gene_emb,     # gene embedding
+    "tf_gene": model.layer_w_2.weight.data.cpu().numpy(),  # trained weight of tf_gene constrains
+    'labels_test':labels_test,      # measured exp on test set
+    'preds_test':preds_test,        # predicted exp on test set
+    'tmr_test':tmr_test,            # tumor list on test set
+    'can_test':dataset_test['can']  # cancer type list on test set
 }
-with open(
-    os.path.join(
-        args.output_dir, "output_{}_{}.pkl".format(args.dataset_name, args.tag)
-    ),
-    "wb",
-) as f:
-    pickle.dump(dataset_out, f, protocol=2)
+
+with open(os.path.join(args.output_dir, "output_{}_{}.pkl".format(args.dataset_name, args.tag)), "wb") as f:
+  pickle.dump(dataset_out, f, protocol=2)
