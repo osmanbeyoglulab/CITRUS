@@ -108,7 +108,7 @@ parser.add_argument(
     default=True,
 )
 ```
-For example, you can specify your own dataset name and location by running the command:
+For example, The following command runs CITIRUS by specifying your own dataset and its location:
 ```sh
 python test_run.py --dataset_name "mydataset" --input_dir "path/to/data"
 ```
