@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # =============================================================================
 # Author : "Yifeng Tao", "Xiaojun Ma"
-# Finalized Date: March 2021
+# Last update: March 2021
 # =============================================================================
 """ 
 Implementation of CITRUS model and its variants.
