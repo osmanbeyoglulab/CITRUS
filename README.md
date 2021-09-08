@@ -51,12 +51,12 @@ dataset_out = {
 }
 ```
 
-We use ensemble method to furthur stablize TF activity which is a hidden layer before the output gene expression layer. 
+We use the ensemble method to further stabilize TF activity which is a hidden layer before the output gene expression layer.
 
 To generate ensembled TF activity, First run the model 10 times by execute the command
 ```sh
 for (( i = 1; N <= 10; i++ ))
-    python test.py --tag i 
+    python test.py --tag i
 done
 ```
 After getting the output results of all runs, Then execute the following command to ensemble TF activities
@@ -73,9 +73,9 @@ To assist CITRUS usage we established the following input arguments
 
 ```sh
 parser.add_argument(
-    "--input_dir", 
-    help="directory of input files", 
-    type=str, 
+    "--input_dir",
+    help="directory of input files",
+    type=str,
     default="../data"
 )
 parser.add_argument(
@@ -91,15 +91,15 @@ parser.add_argument(
     default="dataset_PANunion2500_17_sga_dropped_seperated_rmNotImpt_0.04_with_holdout_new",
 )
 parser.add_argument(
-    "--tag", 
-    help="a tag passed from command line", 
-    type=str, 
+    "--tag",
+    help="a tag passed from command line",
+    type=str,
     default=""
 )
 parser.add_argument(
-    "--run_count", 
-    help="the count for training", 
-    type=str, 
+    "--run_count",
+    help="the count for training",
+    type=str,
     default="1"
 parser.add_argument(
     "--train_model",
@@ -112,7 +112,7 @@ For example, The following command runs CITIRUS by specifying your own dataset a
 ```sh
 python test_run.py --dataset_name "mydataset" --input_dir "path/to/data"
 ```
-All the demos we showed aboveb trained CITRUS deep learning model with default hyperparameters. There are more than 10 hyperparmaeters which can be turned to get the optimized results.
+All the demos we showed above trained CITRUS deep learning model with default hyperparameters. There are more than 10 hyperparameters that can be turned to get the optimal results.
 
 ```sh
 parser.add_argument(
@@ -122,63 +122,63 @@ parser.add_argument(
     default=512,
 )
 parser.add_argument(
-    "--hidden_size", 
-    help="hidden layer dimension of MLP decoder", 
-    type=int, 
+    "--hidden_size",
+    help="hidden layer dimension of MLP decoder",
+    type=int,
     default=400
 )
 parser.add_argument(
-    "--attention_size", 
-    help="size of attention parameter beta_j", 
-    type=int, 
+    "--attention_size",
+    help="size of attention parameter beta_j",
+    type=int,
     default=256
 )
 parser.add_argument(
-    "--attention_head", 
-    help="number of attention heads", 
-    type=int, 
+    "--attention_head",
+    help="number of attention heads",
+    type=int,
     default=32
 )
 parser.add_argument(
-    "--learning_rate", 
-    help="learning rate for Adam", 
-    type=float, 
+    "--learning_rate",
+    help="learning rate for Adam",
+    type=float,
     default=1e-3
 )
 parser.add_argument(
-    "--max_iter", 
-    help="maximum number of training iterations", 
-    type=int, 
+    "--max_iter",
+    help="maximum number of training iterations",
+    type=int,
     default=1
 )
 parser.add_argument(
-    "--batch_size", 
-    help="training batch size", 
-    type=int, 
+    "--batch_size",
+    help="training batch size",
+    type=int,
     default=100
 )
 parser.add_argument(
-    "--test_batch_size", 
-    help="test batch size", 
-    type=int, 
+    "--test_batch_size",
+    help="test batch size",
+    type=int,
     default=100
 )
 parser.add_argument(
-    "--dropout_rate", 
-    help="dropout rate", 
-    type=float, 
+    "--dropout_rate",
+    help="dropout rate",
+    type=float,
     default=0.2
 )
 parser.add_argument(
-    "--input_dropout_rate", 
-    help="dropout rate", 
-    type=float, 
+    "--input_dropout_rate",
+    help="dropout rate",
+    type=float,
     default=0.2
 )
 parser.add_argument(
-    "--weight_decay", 
-    help="coefficient of l2 regularizer", 
-    type=float, 
+    "--weight_decay",
+    help="coefficient of l2 regularizer",
+    type=float,
     default=1e-5
 )
 parser.add_argument(
@@ -188,15 +188,15 @@ parser.add_argument(
     default="tanh",
 )
 parser.add_argument(
-    "--patience", 
-    help="earlystopping patience", 
-    type=int, 
+    "--patience",
+    help="earlystopping patience",
+    type=int,
     default=30
 )
 parser.add_argument(
-    "--deg_normalization", 
-    help="how to normalize deg", 
-    type=str, 
+    "--deg_normalization",
+    help="how to normalize deg",
+    type=str,
     default="scaleRow"
 )
 parser.add_argument(
