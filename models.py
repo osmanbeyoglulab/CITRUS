@@ -1,4 +1,11 @@
-""" Implementation of CITRUS model and its variants.
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# =============================================================================
+# Author : "Yifeng Tao", "Xiaojun Ma"
+# Finalized Date: March 2021
+# =============================================================================
+""" 
+Implementation of CITRUS model and its variants.
 
 """
 import os
@@ -13,14 +20,16 @@ from utils import get_minibatch, evaluate, EarlyStopping, shuffle_data
 
 from base import ModelBase
 
-__author__ = "Yifeng Tao", "Xiaojun Ma"
-
 
 class weightConstraint(object):
+    """ Define weight constraint for a model layer """
     def __call__(self, module):
+        """Set the constraint for correcting  parameters to positive value 
+        during training.
+
+        """        
         if hasattr(module, "weight"):
             w = module.weight.data
-            # w = w * self.maskvalue
             w = torch.abs(w)
             module.weight.data = w
 
@@ -77,9 +86,11 @@ class CITRUS(ModelBase):
         )
 
         mask_value = torch.FloatTensor(self.tf_gene.T)
+        # define layer weight clapped by mask
         self.layer_w_2.weight.data = self.layer_w_2.weight.data * torch.FloatTensor(
             self.tf_gene.T
         )
+        # register a backford hook with the mask value
         self.layer_w_2.weight.register_hook(lambda grad: grad.mul_(mask_value))
 
         self.optimizer = optim.Adam(
@@ -105,7 +116,7 @@ class CITRUS(ModelBase):
         emb_tmr: 2D array of float
           tumor embedding
         emb_sga: 2D array of float
-          stratified tumor embedding
+          stratified tumor gene embedding
         attn_wt: 2D array of float
           attention weights of SGAs
 
@@ -114,7 +125,8 @@ class CITRUS(ModelBase):
         # cancer type embedding
         emb_can = self.layer_can_emb(can_index)
         emb_can = emb_can.view(-1, self.embedding_size)
-
+        
+        # dropout input 
         if self.training:
             sga_index2 = (
                 torch.empty_like(sga_index).bernoulli_(1 - self.input_dropout_rate)
@@ -145,11 +157,13 @@ class CITRUS(ModelBase):
             # if not using attention, simply sum up SGA embeddings
             emb_sga = torch.sum(E_t, dim=1)
             emb_sga = emb_sga.view(-1, self.embedding_size)
+        
         # if use cancer type input, add cancer type embedding
         if self.cancer_type:
             emb_tmr = emb_can + emb_sga
         else:
             emb_tmr = emb_sga
+        
         # MLP decoder
         emb_tmr_relu = self.layer_dropout_1(self.activation(emb_tmr))
         hid_tmr = self.layer_w_1(emb_tmr_relu)
@@ -269,8 +283,11 @@ class CITRUS(ModelBase):
         labels, preds, hid_tmr, emb_tmr, emb_sga, attn_wt, tmr = (
             [], [], [], [], [], [], [],
         )
+        
         self.eval()
+        
         for iter_test in range(0, len(test_set["can"]), test_batch_size):
+            
             batch_set = get_minibatch(
                 test_set, iter_test, test_batch_size, batch_type="test"
             )
@@ -281,6 +298,7 @@ class CITRUS(ModelBase):
                 batch_emb_sga,
                 batch_attn_wt,
             ) = self.forward(batch_set["sga"], batch_set["can"])
+            
             batch_labels = batch_set["deg"]
 
             labels.append(batch_labels.cpu().data.numpy())
@@ -290,11 +308,14 @@ class CITRUS(ModelBase):
             emb_sga.append(batch_emb_sga.cpu().data.numpy())
             attn_wt.append(batch_attn_wt.cpu().data.numpy())
             tmr = tmr + batch_set["tmr"]
+            
         labels = np.concatenate(labels, axis=0)
         preds = np.concatenate(preds, axis=0)
         hid_tmr = np.concatenate(hid_tmr, axis=0)
         emb_tmr = np.concatenate(emb_tmr, axis=0)
         emb_sga = np.concatenate(emb_sga, axis=0)
         attn_wt = np.concatenate(attn_wt, axis=0)
+        
         self.train()
+        
         return labels, preds, hid_tmr, emb_tmr, emb_sga, attn_wt, tmr
