@@ -1,10 +1,16 @@
-""" Base model of CITRUS and its variants.
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# =============================================================================
+# Author : "Yifeng Tao", "Xiaojun Ma"
+# Finalized Date: March 2021
+# =============================================================================
+""" 
+Base model of CITRUS and its variants.
 
 """
 import torch
 import torch.nn as nn
 
-__author__ = "Yifeng Tao", "Xiaojun Ma"
 
 
 class ModelBase(nn.Module):
