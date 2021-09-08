@@ -9,7 +9,7 @@ There are three major datasets used to train CITRUS model: Somatica alteration g
     
 The integrated dataset of the pikle file can be downloaded from https://sites.pitt.edu/~xim33/CITRUS
 
-You can explore the content of the datat by running:
+You can explore the contents of the dataset by running:
 ```sh
 data = pickle.load( open("dataset_CITRUS.pkl"), "rb")
 data.keys()
