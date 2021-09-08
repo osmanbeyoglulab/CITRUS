@@ -1,4 +1,11 @@
-""" Shared utilities for models.py and test_run.py.
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# =============================================================================
+# Author : "Yifeng Tao", "Xiaojun Ma"
+# Last update: March 2021
+# =============================================================================
+""" 
+Shared utilities for models.py and test_run.py.
 
 """
 import os
@@ -17,7 +24,6 @@ from sklearn.model_selection import StratifiedShuffleSplit
 import torch.nn as nn
 
 
-__author__ = "Yifeng Tao", "Xiaojun Ma"
 
 
 def bool_ext(rbool):
@@ -49,26 +55,53 @@ def load_dataset(
     tmr = data["tmr"]  # barcodes of tumors: list of str
     tf_gene = np.array(data["tf_gene"])
 
+    #load holdout dataset
+    can_r_test = data["can_test"] # cancer type index of tumors: list of int
+    sga_r_test = data["sga_test"] # SGA index of tumors: list of list
+    deg_test = data["deg_test"]   # DEG binary matrix of tumors: 2D array of 0/1
+    tmr_test = data["tmr_test"]   # barcodes of tumors: list of str
+
     if mask01 == True:
         tf_gene[tf_gene != 0] = 1
     else:
         tf_gene = normalize(tf_gene)
+
     # shift the index of cancer type by +1, 0 is for padding
     can = np.asarray([[x + 1] for x in can_r], dtype=int)
 
     # shift the index of SGAs by +1, 0 is for padding
-    num_max_sga = max([len(s) for s in sga_r])
-    sga = np.zeros((len(sga_r), num_max_sga), dtype=int)
+    num_max_sga_train = max([len(s) for s in sga_r])
+    num_max_sga_test = max([len(s) for s in sga_r_test])
+    num_max_sga = max(num_max_sga_train, num_max_sga_test)
+    sga = np.zeros( (len(sga_r), num_max_sga), dtype=int )
     for idx, line in enumerate(sga_r):
-        line = [s + 1 for s in line]
-        sga[idx, 0 : len(line)] = line
+        line = [s+1 for s in line]
+        sga[idx,0:len(line)] = line
+
+    
     if deg_normalization == "scaleRow":
         deg = scale(deg, axis=1)
-    dataset = {"can": can, "sga": sga, "deg": deg, "tmr": tmr, "tf_gene": tf_gene}
-
-    return dataset
 
 
+    # shift the index of cancer type by +1, 0 is for padding
+    can_test = np.asarray([[x+1] for x in can_r_test], dtype=int)
+
+    # shift the index of SGAs by +1, 0 is for padding
+
+    sga_test = np.zeros( (len(sga_r_test), num_max_sga), dtype=int )
+    for idx, line in enumerate(sga_r_test):
+        line = [s+1 for s in line]
+        sga_test[idx,0:len(line)] = line  
+  
+    if deg_normalization == 'scaleRow':
+        deg_test = scale(deg_test, axis = 1)   
+  
+    dataset = {"can":can, "sga":sga, "deg":deg, "tmr":tmr, "tf_gene":tf_gene}
+    dataset_test = {"can":can_test, "sga":sga_test, "deg":deg_test, "tmr":tmr_test}
+    
+    return dataset, dataset_test
+
+    
 def split_dataset(dataset, ratio=0.66):
 
     sss = StratifiedShuffleSplit(n_splits=1, test_size=0.34)  # , random_state=2020)
