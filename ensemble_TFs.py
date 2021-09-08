@@ -16,8 +16,8 @@ import os
 # input_dir = "./data"
 # output_dir = "./data"
 
-input_dir = "C:\\Users\\XIM33\\OneDrive - University of Pittsburgh\\GIT\\CITRUS_PAN_mask\\dropout_input_cpu_test_on_holdout\\output"
-output_dir = "../data"
+input_dir = "./data"
+output_dir = "./data"
 
 def generateTFactivity(tf, idx2can, tmr, cans, tf_name):
     # generate the TF activity matrix
@@ -26,9 +26,8 @@ def generateTFactivity(tf, idx2can, tmr, cans, tf_name):
     df_TF['cancer_type'] = can_names
     return(df_TF)
 
-#read in input dataset
-input_dir2 = "C:\\Users\\XIM33\\OneDrive - University of Pittsburgh\\GIT\\data_typeSpecific"    
-data = pickle.load( open(os.path.join(input_dir2,"dataset_PANunion2500_17_sga_dropped_seperated_rmNotImpt_0.04_with_holdout_new.pkl"), "rb"))
+#readin input dataset
+data = pickle.load( open(os.path.join(input_dir,"dataset_PANunion2500_17_sga_dropped_seperated_rmNotImpt_0.04_with_holdout_new.pkl"), "rb"))
 
 # read in output datasets of 10 runs
 Ntf = 2
@@ -51,4 +50,5 @@ tf_ensemble = tf_ensemble/Ntf
 
 df_tf = generateTFactivity(tf_ensemble, data['idx2can'],data['tmr'], data['can'], data['tf_name'])
 
+#save to file
 df_tf.to_csv(os.path.join(output_dir,"TF_activity_ensemble_{}.csv".format(Ntf)))
