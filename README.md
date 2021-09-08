@@ -67,7 +67,7 @@ We uploaded ensembled TF activities generated from 10 runs of CITURS to the webs
 
 ## Explore CITRUS model
 
-**Hyperparameters and arguments**
+**Arguments ans Hyperparameters**
 
 To assist CITRUS usage we established the following input arguments
 
@@ -213,3 +213,4 @@ parser.add_argument(
 )
 
 ```
+**Output analysis**
