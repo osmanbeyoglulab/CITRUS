@@ -60,7 +60,7 @@ done
 ```
 After getting the output results of all runs, Then execute the following command to ensemble TF activities
 ```sh
-    python TF_ensemble.py
+python TF_ensemble.py
 ```
  ## Explore CITRUS model
  
