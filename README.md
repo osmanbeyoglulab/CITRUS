@@ -46,11 +46,11 @@ for (( i = 1; N <= 10; i++ ))
     python test.py --tag i
 done
 ```
-After getting the output results of all runs, Then execute the TF_ensemble.py to ensemble TF activities
+After getting the outputs for all runs, execute the TF_ensemble.py to ensemble TF activities
 ```sh
 python TF_ensemble.py --runs 10
 ```
-We uploaded ensembled TF activities generated from 10 runs of CITURS to the website https://sites.pitt.edu/~xim33/CITRUS
+We also have uploaded ensembled TF activities generated from 10 runs of CITURS model to the website https://sites.pitt.edu/~xim33/CITRUS
 
 ## Explore CITRUS model
 
