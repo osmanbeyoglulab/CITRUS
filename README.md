@@ -200,7 +200,7 @@ parser.add_argument(
 )
 
 ```
-When training dataset other than provided. It is better to re-tune these parameters. This is the way to train the model with the learning rate as 1e-4, and use activation function as 'relu'
+When training dataset other than provided. It is better to re-tune these parameters. The following command showes the way to train the model with the learning rate as 1e-4, and use activation function as 'relu'
 ```sh
 python run_CITRUS.py --learning_rate 1e-4 --activation 'relu'
 ```
