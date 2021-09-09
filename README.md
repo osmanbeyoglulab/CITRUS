@@ -59,13 +59,13 @@ dataset_out = {
 
 We use the ensemble method to further stabilize TF activity which is a hidden layer before the output gene expression layer.
 
-To generate ensembled TF activity, First run the model 10 times by execute the command
+To generate ensembled TF activity, First run the model 10 times
 ```sh
 for (( i = 1; N <= 10; i++ ))
     python test.py --tag i
 done
 ```
-After getting the output results of all runs, Then execute the following command to ensemble TF activities
+After getting the output results of all runs, Then execute the TF_ensemble.py to ensemble TF activities
 ```sh
 python TF_ensemble.py
 ```
