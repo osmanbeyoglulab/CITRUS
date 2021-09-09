@@ -99,7 +99,7 @@ For example, The following command runs CITIRUS by specifying your own dataset a
 ```sh
 python test_run.py --dataset_name "mydataset" --input_dir "path/to/data"
 ```
-All the demos we showed above trained CITRUS deep learning model with default hyperparameters. There are more than 10 hyperparameters that have been tuned to get the optimal results for this dataset.
+All the demos we showed above trained CITRUS deep learning model with default hyperparameters. There are more than 10 hyperparameters that have been tuned to get the optimal results.
 
 ```sh
 parser.add_argument(
