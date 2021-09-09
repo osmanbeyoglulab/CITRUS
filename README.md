@@ -37,25 +37,6 @@ Download the data into ./data directory and execute the command
 ```sh
 python test_run.py 
 ```
-The output is a dictionary packaged into a pickle file, containing predicted gene expression, extracted TF activities, gene embedding, tumor embedding, etc.  
-```sh
-dataset_out = {
-    "labels": labels,         # measured exp 
-    "preds": preds,           # predicted exp
-    "hid_tmr": hid_tmr,       # TF activity
-    "emb_tmr": emb_tmr,       # tumor embedding
-    "tmr": tmr,               # tumor list
-    "emb_sga": emb_sga,       # straitified tumor embedding
-    "attn_wt": attn_wt,       # attention weight
-    "can": dataset["can"],    # cancer type list
-    "gene_emb": gene_emb,     # gene embedding
-    "tf_gene": model.layer_w_2.weight.data.cpu().numpy(),  # trained weight of tf_gene constrains
-    'labels_test':labels_test,      # measured exp on test set
-    'preds_test':preds_test,        # predicted exp on test set
-    'tmr_test':tmr_test,            # tumor list on test set
-    'can_test':dataset_test['can']  # cancer type list on test set
-}
-```
 
 We use the ensemble method to further stabilize TF activity which is a hidden layer before the output gene expression layer.
 
@@ -118,7 +99,7 @@ For example, The following command runs CITIRUS by specifying your own dataset a
 ```sh
 python test_run.py --dataset_name "mydataset" --input_dir "path/to/data"
 ```
-All the demos we showed above trained CITRUS deep learning model with default hyperparameters. There are more than 10 hyperparameters that can be turned to get the optimal results.
+All the demos we showed above trained CITRUS deep learning model with default hyperparameters. There are more than 10 hyperparameters that have been tuned to get the optimal results for this dataset.
 
 ```sh
 parser.add_argument(
@@ -219,4 +200,47 @@ parser.add_argument(
 )
 
 ```
-**Output analysis**
+**Extract contents from CITRUS output**
+The output contains many elements including "predicted gene expression", "extracted TF activities", "gene embedding", "tumor embedding", "attention weight", etc. They are integrated into a python dictionary data structure as:
+
+The output dictory object was serialized to a byte stream and saved as a pickle file on disk. 
+```sh
+dataset_out = {
+    "labels": labels,         # measured exp 
+    "preds": preds,           # predicted exp
+    "hid_tmr": hid_tmr,       # TF activity
+    "emb_tmr": emb_tmr,       # tumor embedding
+    "tmr": tmr,               # tumor list
+    "emb_sga": emb_sga,       # straitified tumor embedding
+    "attn_wt": attn_wt,       # attention weight
+    "can": dataset["can"],    # cancer type list
+    "gene_emb": gene_emb,     # gene embedding
+    "tf_gene": model.layer_w_2.weight.data.cpu().numpy(),  # trained weight of tf_gene constrains
+    'labels_test':labels_test,      # measured exp on test set
+    'preds_test':preds_test,        # predicted exp on test set
+    'tmr_test':tmr_test,            # tumor list on test set
+    'can_test':dataset_test['can']  # cancer type list on test set
+}
+```
+
+To extract the contents of output. First readin the pickle file
+```sh
+# suppose the output file in ./data as well
+output_data = pickle.load(open("./data/output_dataset_CITRUS.pkl", "rb"))
+```
+
+First, need to readin the pickle file.
+```sh
+# suppose the output file in ./data as well
+output_data = pickle.load(open("./data/output_dataset_CITRUS.pkl", "rb"))
+```
+Then extract the elements, here are a few demos:
+```sh
+gene_prediction = output_data['preds']
+attention_weight = output_data['attn_wt']
+gene_embedding= output_data['gene_emb']
+tumor_embedding = output_data['emb_tmr'
+TF_activity = output_data['hid_tmr']
+```
+
+
