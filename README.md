@@ -230,7 +230,7 @@ dataset_out = {
 
 To extract the contents of output. First readin the pickle file
 ```sh
-# suppose the output file in ./data as well
+# suppose the output file is in ./data 
 output_data = pickle.load(open("./data/output_dataset_CITRUS.pkl", "rb"))
 ```
 
