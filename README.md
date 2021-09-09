@@ -37,7 +37,7 @@ Download the data into ./data directory and execute the command
 ```sh
 python test_run.py 
 ```
-The output is a dictionary packed in a pickle file, containing predicted gene expression, extracted TF activities, gene embedding, tumor embedding, etc.  
+The output is a dictionary packaged into a pickle file, containing predicted gene expression, extracted TF activities, gene embedding, tumor embedding, etc.  
 ```sh
 dataset_out = {
     "labels": labels,         # measured exp 
