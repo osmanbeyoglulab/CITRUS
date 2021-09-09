@@ -97,7 +97,7 @@ parser.add_argument(
 ```
 For example, The following command runs CITIRUS by specifying your own dataset, its location and output directory:
 ```sh
-python run_CITRUS.py --dataset_name "mydataset" --input_dir "path/to/input" --ouput_dir "path/to/output"
+python run_CITRUS.py --dataset_name "mydataset" --input_dir "path/to/input" --output_dir "path/to/output"
 ```
 All the demos we showed above trained CITRUS deep learning model with default hyperparameters. There are more than 10 hyperparameters that have been tuned to get the optimal results.
 
