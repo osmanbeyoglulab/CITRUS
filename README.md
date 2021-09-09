@@ -56,7 +56,7 @@ You can find the generate ensembled TF activities from 10 runs of CITURS model a
 
 **Arguments and Hyperparameters**
 
-To assist CITRUS usage we established the following input arguments
+To assist CITRUS usage, we established the following input arguments
 
 ```sh
 parser.add_argument(
