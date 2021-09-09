@@ -13,11 +13,30 @@ import pickle
 import pandas as pd 
 import os
 
-# input_dir = "./data"
-# output_dir = "./data"
+import argparse
 
-input_dir = "./data"
-output_dir = "./data"
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "--input_dir", 
+    help="directory of input files", 
+    type=str, 
+    default="../data"
+)
+parser.add_argument(
+    "--output_dir",
+    help="directory of output files",
+    type=str,
+    default="../data",
+)
+
+parser.add_argument(
+    "--runs",
+    help="number of runs",
+    type=int,
+    default=10,
+)
+args = parser.parse_args()
 
 def generateTFactivity(tf, idx2can, tmr, cans, tf_name):
     # generate the TF activity matrix
@@ -30,7 +49,7 @@ def generateTFactivity(tf, idx2can, tmr, cans, tf_name):
 data = pickle.load( open(os.path.join(input_dir,"dataset_PANunion2500_17_sga_dropped_seperated_rmNotImpt_0.04_with_holdout_new.pkl"), "rb"))
 
 # read in output datasets of 10 runs
-Ntf = 2
+Ntf = args.runs
 run = list()
 for i in range(1,Ntf+1):
     dataset = pickle.load( open(os.path.join(input_dir,"output_with_holdout_new_mask_batch100_inputdrop0.2_drop0.2_new_{}.pkl".format(i)), "rb") )
