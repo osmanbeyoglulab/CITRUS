@@ -232,7 +232,7 @@ The dictionary object was saved as a pickle file on disk. To extract the content
 output_data = pickle.load(open("./data/output_dataset_CITRUS.pkl", "rb"))
 ```
 
-Then extract the elements, here are a few demos:
+Here are a few demos to extract the elements from output object. 
 ```sh
 gene_prediction = output_data['preds']
 attention_weight = output_data['attn_wt']
