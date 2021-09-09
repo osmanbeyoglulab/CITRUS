@@ -200,6 +200,10 @@ parser.add_argument(
 )
 
 ```
+For example, this is the way to train the model with the learning rate as 1e-4, and use activtion function as relu
+```sh
+python run_CITRUS.py --learning_rate 1e-4 --activation 'relu'
+```
 **Extract contents from CITRUS output**
 The output contains many elements including "predicted gene expression", "extracted TF activities", "gene embedding", "tumor embedding", "attention weight", etc. They are integrated into a python dictionary data structure as:
 
