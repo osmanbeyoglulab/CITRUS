@@ -46,13 +46,13 @@ def generateTFactivity(tf, idx2can, tmr, cans, tf_name):
     return(df_TF)
 
 #readin input dataset
-data = pickle.load( open(os.path.join(input_dir,"dataset_PANunion2500_17_sga_dropped_seperated_rmNotImpt_0.04_with_holdout_new.pkl"), "rb"))
+data = pickle.load( open(os.path.join(args.input_dir,"dataset_PANunion2500_17_sga_dropped_seperated_rmNotImpt_0.04_with_holdout_new.pkl"), "rb"))
 
 # read in output datasets of 10 runs
 Ntf = args.runs
 run = list()
 for i in range(1,Ntf+1):
-    dataset = pickle.load( open(os.path.join(input_dir,"output_with_holdout_new_mask_batch100_inputdrop0.2_drop0.2_new_{}.pkl".format(i)), "rb") )
+    dataset = pickle.load( open(os.path.join(args.input_dir,"output_with_holdout_new_mask_batch100_inputdrop0.2_drop0.2_new_{}.pkl".format(i)), "rb") )
 
     run.append(dataset) 
 
@@ -70,4 +70,4 @@ tf_ensemble = tf_ensemble/Ntf
 df_tf = generateTFactivity(tf_ensemble, data['idx2can'],data['tmr'], data['can'], data['tf_name'])
 
 #save to file
-df_tf.to_csv(os.path.join(output_dir,"TF_activity_ensemble_{}.csv".format(Ntf)))
+df_tf.to_csv(os.path.join(args.output_dir,"TF_activity_ensemble_{}.csv".format(Ntf)))
