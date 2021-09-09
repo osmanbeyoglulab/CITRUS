@@ -33,7 +33,7 @@ https://docs.anaconda.com/anaconda/install/index.html
     conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
  ```  
  ## Replicate experiments
-Download this repository from https://github.com/osmanbeyoglulab/CITRUS. Download input dataset "dataset_CITRUS.pkl" from https://sites.pitt.edu/~xim33/CITRUS and put it into ./data directory. Execute the command
+Download/colone this repository. Download input dataset "dataset_CITRUS.pkl" from https://sites.pitt.edu/~xim33/CITRUS and put it into ./data directory. Execute the command
 ```sh
 python run_CITRUS.py
 ```
