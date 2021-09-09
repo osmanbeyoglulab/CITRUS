@@ -51,8 +51,7 @@ data = pickle.load( open(os.path.join(args.input_dir,"dataset_PANunion2500_17_sg
 Ntf = args.runs
 run = list()
 for i in range(1,Ntf+1):
-    dataset = pickle.load( open(os.path.join(args.input_dir,"output_with_holdout_new_mask_batch100_inputdrop0.2_drop0.2_new_{}.pkl".format(i)), "rb") )
-
+    dataset = pickle.load( open(os.path.join(input_dir,"output_with_holdout_new_mask_batch100_inputdrop0.2_drop0.2_new_{}.pkl".format(i)), "rb") )
     run.append(dataset) 
 
 tf = list()
