@@ -35,7 +35,7 @@ https://docs.anaconda.com/anaconda/install/index.html
  ## Replicate experiments
 Download the data into ./data directory and execute the command
 ```sh
-python test_run.py 
+python run_CITRUS.py 
 ```
 
 We use the ensemble method to further stabilize TF activity which is a hidden layer before the output gene expression layer.
@@ -43,7 +43,7 @@ We use the ensemble method to further stabilize TF activity which is a hidden la
 To generate ensembled TF activity, First run the model 10 times
 ```sh
 for (( i = 1; N <= 10; i++ ))
-    python test.py --tag i
+    python run_CITRUS.py --tag i
 done
 ```
 After getting the outputs for all runs, execute the TF_ensemble.py to ensemble TF activities
@@ -63,13 +63,13 @@ parser.add_argument(
     "--input_dir",
     help="directory of input files",
     type=str,
-    default="../data"
+    default="./data"
 )
 parser.add_argument(
     "--output_dir",
     help="directory of output files",
     type=str,
-    default="./output",
+    default="./data",
 )
 parser.add_argument(
     "--dataset_name",
@@ -97,7 +97,7 @@ parser.add_argument(
 ```
 For example, The following command runs CITIRUS by specifying your own dataset and its location:
 ```sh
-python test_run.py --dataset_name "mydataset" --input_dir "path/to/data"
+python run_CITRUS.py --dataset_name "mydataset" --input_dir "path/to/data"
 ```
 All the demos we showed above trained CITRUS deep learning model with default hyperparameters. There are more than 10 hyperparameters that have been tuned to get the optimal results.
 
