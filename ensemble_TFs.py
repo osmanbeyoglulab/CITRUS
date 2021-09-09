@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # =============================================================================
 # Created By  : Xiaojun Ma
-# Created Date: Sep 7 PDT 2021
+# Created Date: Sep. 7, 2021
 # =============================================================================
 """
 This script generates the ensembled TF activities from multiple CITRUS training outputs
