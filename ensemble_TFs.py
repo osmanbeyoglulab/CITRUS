@@ -29,7 +29,6 @@ parser.add_argument(
     type=str,
     default="../data",
 )
-
 parser.add_argument(
     "--runs",
     help="number of runs",
