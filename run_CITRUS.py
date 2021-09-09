@@ -170,6 +170,8 @@ parser.add_argument(
 
 args = parser.parse_args()
 
+if not os.path.exists(args.output_dir):
+    os.makedirs(args.output_dir)
 
 print("Loading dataset...")
 dataset, dataset_test = load_dataset(
