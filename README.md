@@ -67,7 +67,7 @@ done
 ```
 After getting the output results of all runs, Then execute the TF_ensemble.py to ensemble TF activities
 ```sh
-python TF_ensemble.py
+python TF_ensemble.py --runs 10
 ```
 We uploaded ensembled TF activities generated from 10 runs of CITURS to the website https://sites.pitt.edu/~xim33/CITRUS
 
