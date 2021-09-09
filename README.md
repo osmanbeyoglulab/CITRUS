@@ -208,7 +208,6 @@ python run_CITRUS.py --learning_rate 1e-4 --activation 'relu'
 
 The output contains many elements including "predicted gene expression", "extracted TF activities", "gene embedding", "tumor embedding", "attention weight", etc. They are integrated into a python dictionary data structure as:
 
-The output dictory object was serialized to a byte stream and saved as a pickle file on disk.
 ```sh
 dataset_out = {
     "labels": labels,         # measured exp
@@ -227,8 +226,7 @@ dataset_out = {
     'can_test':dataset_test['can']  # cancer type list on test set
 }
 ```
-
-To extract the contents of output. First readin the pickle file
+The dictionary object was saved as a pickle file on disk. To extract the contents of output. First read in the pickle file
 ```sh
 # suppose the output file is in ./data 
 output_data = pickle.load(open("./data/output_dataset_CITRUS.pkl", "rb"))
