@@ -237,7 +237,7 @@ Then extract the elements, here are a few demos:
 gene_prediction = output_data['preds']
 attention_weight = output_data['attn_wt']
 gene_embedding= output_data['gene_emb']
-tumor_embedding = output_data['emb_tmr'
+tumor_embedding = output_data['emb_tmr']
 TF_activity = output_data['hid_tmr']
 ```
 
