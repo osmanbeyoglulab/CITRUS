@@ -33,7 +33,7 @@ class ModelBase(nn.Module):
         self.output_dir = args.output_dir
 
         self.sga_size = args.sga_size
-        self.deg_size = args.deg_size
+        self.gep_size = args.gep_size
         self.can_size = args.can_size
 
         self.num_max_sga = args.num_max_sga
@@ -58,7 +58,7 @@ class ModelBase(nn.Module):
             
         self.tf_gene = args.tf_gene
         self.mask01 = args.mask01
-        self.deg_normalization = args.deg_normalization
+        self.gep_normalization = args.gep_normalization
         
         self.patience = args.patience
         self.run_count = args.run_count
