@@ -14,20 +14,13 @@ from utils import bool_ext, load_dataset, split_dataset, evaluate, checkCorrelat
 from models import CITRUS
 import pickle
 
-
 parser = argparse.ArgumentParser()
 
-parser.add_argument(
-    "--train_model",
-    help="whether to train model or load model",
-    type=bool_ext,
-    default=True,
-)
 parser.add_argument(
     "--input_dir", 
     help="directory of input files", 
     type=str, 
-    default="../data"
+    default="./data"
 )
 parser.add_argument(
     "--output_dir",
@@ -132,8 +125,8 @@ parser.add_argument(
     default=True,
 )
 parser.add_argument(
-    "--deg_normalization", 
-    help="how to normalize deg", 
+    "--gep_normalization", 
+    help="how to normalize gep", 
     type=str, 
     default="scaleRow"
 )
@@ -150,10 +143,16 @@ parser.add_argument(
     default=True,
 )
 parser.add_argument(
+    "--train_model",
+    help="whether to train model or load model",
+    type=bool_ext,
+    default=True,
+)
+parser.add_argument(
     "--dataset_name",
     help="the dataset name loaded and saved",
     type=str,
-    default="dataset_PANunion2500_17_sga_dropped_seperated_rmNotImpt_0.04_with_holdout_new",
+    default="dataset_CITRUS",
 )
 parser.add_argument(
     "--tag", 
@@ -178,7 +177,7 @@ dataset, dataset_test = load_dataset(
     input_dir=args.input_dir,
     mask01=args.mask01,
     dataset_name=args.dataset_name,
-    deg_normalization=args.deg_normalization,
+    gep_normalization=args.gep_normalization,
 )
 
 
@@ -186,7 +185,7 @@ train_set, test_set = split_dataset(dataset, ratio=0.66)
 
 args.can_size = dataset["can"].max()  # cancer type dimension
 args.sga_size = dataset["sga"].max()  # SGA dimension
-args.deg_size = dataset["deg"].shape[1]  # DEG output dimension
+args.gep_size = dataset["gep"].shape[1]  # GEP output dimension
 args.num_max_sga = dataset["sga"].shape[1]  # maximum number of SGAs in a tumor
 
 args.hidden_size = dataset["tf_gene"].shape[0]
@@ -208,7 +207,7 @@ if args.train_model:  # train from scratch
         max_fscore=args.max_fscore,
         test_inc_size=args.test_inc_size,
     )
-    model.load_model(os.path.join(args.output_dir, "trained_model.pth"))
+    model.save_model(os.path.join(args.output_dir, "trained_model.pth"))
 else:  # or directly load trained model
     model.load_model(os.path.join(args.input_dir, "trained_model.pth"))
     
@@ -217,17 +216,19 @@ print("Evaluating...")
 labels, preds, _, _, _, _, _ = model.test(
     test_set, test_batch_size=args.test_batch_size
 )
-print("Performance on validation set:\n")
+print("\nPerformance on validation set:\n")
 checkCorrelations(labels, preds)
 
+# print("\nPredicting on main dataset...\n")
 # get training attn_wt and others
 labels, preds, hid_tmr, emb_tmr, emb_sga, attn_wt, tmr = model.test(
     dataset, test_batch_size=args.test_batch_size
 )
-
+# print("Predicting on test dataset...\n")
 # predict on holdout and evaluate the performance
 labels_test, preds_test, _, _, _, _, tmr_test = model.test(dataset_test, test_batch_size=args.test_batch_size)
-print("Performance on holdout test set:\n")
+
+print("\nPerformance on holdout test set:\n")
 checkCorrelations(labels_test, preds_test)
 
 # get gene emb
@@ -250,5 +251,5 @@ dataset_out = {
     'can_test':dataset_test['can']  # cancer type list on test set
 }
 
-with open(os.path.join(args.output_dir, "output_{}_{}.pkl".format(args.dataset_name, args.tag)), "wb") as f:
+with open(os.path.join(args.output_dir, "output_{}_{}{}.pkl".format(args.dataset_name, args.run_count, args.tag)), "wb") as f:
   pickle.dump(dataset_out, f, protocol=2)
