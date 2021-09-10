@@ -181,8 +181,8 @@ parser.add_argument(
     default=30
 )
 parser.add_argument(
-    "--deg_normalization",
-    help="how to normalize deg",
+    "--gep_normalization",
+    help="how to normalize gep",
     type=str,
     default="scaleRow"
 )
