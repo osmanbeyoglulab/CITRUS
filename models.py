@@ -82,7 +82,7 @@ class CITRUS(ModelBase):
         self.layer_dropout_2 = nn.Dropout(p=self.dropout_rate)
 
         self.layer_w_2 = nn.Linear(
-            in_features=self.hidden_size, out_features=self.deg_size, bias=True
+            in_features=self.hidden_size, out_features=self.gep_size, bias=True
         )
 
         mask_value = torch.FloatTensor(self.tf_gene.T)
@@ -193,7 +193,7 @@ class CITRUS(ModelBase):
         Parameters
         ----------
         train_set: dict
-          dict of lists, including SGAs, cancer types, DEGs, patient barcodes
+          dict of lists, including SGAs, cancer types, GEPs, patient barcodes
         test_set: dict
         batch_size: int
         test_batch_size: int
@@ -217,7 +217,7 @@ class CITRUS(ModelBase):
                 train_set, iter_train, batch_size, batch_type="train"
             )
             preds, hid_tmr, _, _, _ = self.forward(batch_set["sga"], batch_set["can"])
-            labels = batch_set["deg"]
+            labels = batch_set["gep"]
 
             self.optimizer.zero_grad()
 
@@ -248,7 +248,7 @@ class CITRUS(ModelBase):
                 if self.patience != 0:
                     if es.step(corr_pearson) and iter_train > 180 * test_inc_size:
 
-                        self.save_model(os.path.join(self.output_dir, "trained_model.pth"))
+                        # self.save_model(os.path.join(self.output_dir, "trained_model.pth"))
                         break
         self.save_model(os.path.join(self.output_dir, "trained_model.pth"))
 
@@ -258,7 +258,7 @@ class CITRUS(ModelBase):
         Parameters
         ----------
         test_set: dict
-          dict of lists, including SGAs, cancer types, DEGs, patient barcodes
+          dict of lists, including SGAs, cancer types, GEPs, patient barcodes
         test_batch_size: int
 
         Returns
@@ -299,7 +299,7 @@ class CITRUS(ModelBase):
                 batch_attn_wt,
             ) = self.forward(batch_set["sga"], batch_set["can"])
             
-            batch_labels = batch_set["deg"]
+            batch_labels = batch_set["gep"]
 
             labels.append(batch_labels.cpu().data.numpy())
             preds.append(batch_preds.cpu().data.numpy())
