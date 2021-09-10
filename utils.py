@@ -42,7 +42,7 @@ def bool_ext(rbool):
 
 
 def load_dataset(
-    input_dir="data", mask01=False, dataset_name="", deg_normalization="scaleRow"
+    input_dir="data", mask01=False, dataset_name="", gep_normalization="scaleRow"
 ):
 
     # load dataset
@@ -51,14 +51,14 @@ def load_dataset(
     )
     can_r = data["can"]  # cancer type index of tumors: list of int
     sga_r = data["sga"]  # SGA index of tumors: list of list
-    deg = data["deg"]  # DEG binary matrix of tumors: 2D array of 0/1
+    gep = data["gep"]  # gep matrix of tumors: continuous data
     tmr = data["tmr"]  # barcodes of tumors: list of str
     tf_gene = np.array(data["tf_gene"])
 
     #load holdout dataset
     can_r_test = data["can_test"] # cancer type index of tumors: list of int
     sga_r_test = data["sga_test"] # SGA index of tumors: list of list
-    deg_test = data["deg_test"]   # DEG binary matrix of tumors: 2D array of 0/1
+    gep_test = data["gep_test"]   # GEP matrix of tumors: continuous data
     tmr_test = data["tmr_test"]   # barcodes of tumors: list of str
 
     if mask01 == True:
@@ -79,8 +79,8 @@ def load_dataset(
         sga[idx,0:len(line)] = line
 
     
-    if deg_normalization == "scaleRow":
-        deg = scale(deg, axis=1)
+    if gep_normalization == "scaleRow":
+        gep = scale(gep, axis=1)
 
 
     # shift the index of cancer type by +1, 0 is for padding
@@ -93,11 +93,11 @@ def load_dataset(
         line = [s+1 for s in line]
         sga_test[idx,0:len(line)] = line  
   
-    if deg_normalization == 'scaleRow':
-        deg_test = scale(deg_test, axis = 1)   
+    if gep_normalization == 'scaleRow':
+        gep_test = scale(gep_test, axis = 1)   
   
-    dataset = {"can":can, "sga":sga, "deg":deg, "tmr":tmr, "tf_gene":tf_gene}
-    dataset_test = {"can":can_test, "sga":sga_test, "deg":deg_test, "tmr":tmr_test}
+    dataset = {"can":can, "sga":sga, "gep":gep, "tmr":tmr, "tf_gene":tf_gene}
+    dataset_test = {"can":can_test, "sga":sga_test, "gep":gep_test, "tmr":tmr_test}
     
     return dataset, dataset_test
 
@@ -115,13 +115,13 @@ def split_dataset(dataset, ratio=0.66):
         train_set = {
             "sga": dataset["sga"][train_index],
             "can": dataset["can"][train_index],
-            "deg": dataset["deg"][train_index],
+            "gep": dataset["gep"][train_index],
             "tmr": [dataset["tmr"][idx] for idx in train_index],
         }
         test_set = {
             "sga": dataset["sga"][test_index],
             "can": dataset["can"][test_index],
-            "deg": dataset["deg"][test_index],
+            "gep": dataset["gep"][test_index],
             "tmr": [dataset["tmr"][idx] for idx in test_index],
         }
     return train_set, test_set
@@ -132,7 +132,7 @@ def shuffle_data(dataset):
     random.Random(2020).shuffle(rng)
     dataset["can"] = dataset["can"][rng]
     dataset["sga"] = dataset["sga"][rng]
-    dataset["deg"] = dataset["deg"][rng]
+    dataset["gep"] = dataset["gep"][rng]
     dataset["tmr"] = [dataset["tmr"][idx] for idx in rng]
     return dataset
 
@@ -141,7 +141,7 @@ def wrap_dataset(dataset):
     """Wrap default numpy or list data into PyTorch variables."""
     dataset["can"] = Variable(torch.LongTensor(dataset["can"]))
     dataset["sga"] = Variable(torch.LongTensor(dataset["sga"]))
-    dataset["deg"] = Variable(torch.FloatTensor(dataset["deg"]))
+    dataset["gep"] = Variable(torch.FloatTensor(dataset["gep"]))
 
     return dataset
 
@@ -152,7 +152,7 @@ def get_minibatch(dataset, index, batch_size, batch_type="train"):
     Parameters
     ----------
     dataset: dict
-      dict of lists, including SGAs, cancer types, DEGs, patient barcodes
+      dict of lists, including SGAs, cancer types, GEPs, patient barcodes
     index: int
       starting index of current mini-batch
     batch_size: int
@@ -170,23 +170,23 @@ def get_minibatch(dataset, index, batch_size, batch_type="train"):
 
     sga = dataset["sga"]
     can = dataset["can"]
-    deg = dataset["deg"]
+    gep = dataset["gep"]
     tmr = dataset["tmr"]
 
     if batch_type == "train":
         batch_sga = [sga[idx % len(sga)] for idx in range(index, index + batch_size)]
         batch_can = [can[idx % len(can)] for idx in range(index, index + batch_size)]
-        batch_deg = [deg[idx % len(deg)] for idx in range(index, index + batch_size)]
+        batch_gep = [gep[idx % len(gep)] for idx in range(index, index + batch_size)]
         batch_tmr = [tmr[idx % len(tmr)] for idx in range(index, index + batch_size)]
     elif batch_type == "test":
         batch_sga = sga[index : index + batch_size]
         batch_can = can[index : index + batch_size]
-        batch_deg = deg[index : index + batch_size]
+        batch_gep = gep[index : index + batch_size]
         batch_tmr = tmr[index : index + batch_size]
     batch_dataset_in = {
         "sga": batch_sga,
         "can": batch_can,
-        "deg": batch_deg,
+        "gep": batch_gep,
         "tmr": batch_tmr,
     }
 
