@@ -21,13 +21,13 @@ parser.add_argument(
     "--input_dir", 
     help="directory of input files", 
     type=str, 
-    default="../data"
+    default="./data"
 )
 parser.add_argument(
     "--output_dir",
     help="directory of output files",
     type=str,
-    default="../data",
+    default="./output",
 )
 parser.add_argument(
     "--runs",
@@ -45,13 +45,13 @@ def generateTFactivity(tf, idx2can, tmr, cans, tf_name):
     return(df_TF)
 
 #readin input dataset
-data = pickle.load( open(os.path.join(args.input_dir,"dataset_PANunion2500_17_sga_dropped_seperated_rmNotImpt_0.04_with_holdout_new.pkl"), "rb"))
+data = pickle.load( open(os.path.join(args.input_dir,"dataset_CITRUS.pkl"), "rb"))
 
 # read in output datasets of 10 runs
 Ntf = args.runs
 run = list()
 for i in range(1,Ntf+1):
-    dataset = pickle.load( open(os.path.join(input_dir,"output_with_holdout_new_mask_batch100_inputdrop0.2_drop0.2_new_{}.pkl".format(i)), "rb") )
+    dataset = pickle.load( open(os.path.join(args.output_dir,"output_dataset_CITRUS_{}.pkl".format(i)), "rb") )
     run.append(dataset) 
 
 tf = list()
