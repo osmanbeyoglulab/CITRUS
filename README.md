@@ -28,7 +28,7 @@ https://docs.anaconda.com/anaconda/install/index.html
     conda create --name myenv
     conda activate myenv
 ```
-3.  Install PyTorch in the conda environment. The installation command will be slightly different depending on your computer operating system and hardware configuration. You can get customized the installation command by visiting PyTorch support site:https://pytorch.org/get-started/locally/. For example, on a Window system with CUDA support, you may install PyTorch by running
+3.  Install PyTorch in the conda environment. The installation command will be slightly different depending on your computer operating system and hardware configuration. You can get customized installation command by visiting PyTorch support site:https://pytorch.org/get-started/locally/. For example, on a Window system with CUDA support, you may install PyTorch by running
 ```sh
     conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
  ```  
