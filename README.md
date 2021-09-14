@@ -16,7 +16,7 @@ data.keys()
 ```
 
 ## Prerequisites
-The code runs on python 3.7 and above. Besides python 3, some other packages such as PyTorch, Pandas, Numpy, scikit-learn, Scipy are used. We have tested our code on torch version 1.2.0 (Windows), torch version 1.5.1+cu101 (Linus), torch version .....(Mac)
+The code runs on python 3.7 and above. Besides python 3, some other packages such as PyTorch, Pandas, Numpy, scikit-learn, Scipy are used. We have tested our code on torch version 1.2.0 (Windows), torch version 1.5.1+cu101 (Linus), torch version 1.9.0 (Mac)
 
 It is recommended to install PyTorch through the Anaconda package manager since it installs all dependencies. If you installed the Anaconda distribution of Python 3.7 and above, Pandas, Numpy, scikit-learn, Scipy come pre-installed and no further installation steps are necessary.
 
