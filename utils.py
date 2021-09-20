@@ -93,7 +93,7 @@ def load_dataset(
         line = [s+1 for s in line]
         sga_test[idx,0:len(line)] = line  
   
-    if gep_normalization == 'scaleRow':
+    if gep_normalization == "scaleRow":
         gep_test = scale(gep_test, axis = 1)   
   
     dataset = {"can":can, "sga":sga, "gep":gep, "tmr":tmr, "tf_gene":tf_gene}
