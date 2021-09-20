@@ -41,7 +41,7 @@ def generateTFactivity(tf, idx2can, tmr, cans, tf_name):
     # generate the TF activity matrix
     df_TF = pd.DataFrame(data = tf, columns = tf_name, index = tmr)
     can_names = [idx2can[idx] for idx in cans]
-    df_TF['cancer_type'] = can_names
+    df_TF["cancer_type"] = can_names
     return(df_TF)
 
 #readin input dataset
@@ -56,7 +56,7 @@ for i in range(1,Ntf+1):
 
 tf = list()
 for i in range(Ntf):
-    tf.append(run[i]['hid_tmr'])
+    tf.append(run[i]["hid_tmr"])
 
 ## genereate ensemble tf activity matrix
 tf_ensemble = 0
@@ -65,7 +65,7 @@ for i in range(Ntf):
     
 tf_ensemble = tf_ensemble/Ntf
 
-df_tf = generateTFactivity(tf_ensemble, data['idx2can'],data['tmr'], data['can'], data['tf_name'])
+df_tf = generateTFactivity(tf_ensemble, data["idx2can"],data["tmr"], data["can"], data["tf_name"])
 
 #save to file
 df_tf.to_csv(os.path.join(args.output_dir,"TF_activity_ensemble_{}.csv".format(Ntf)))
