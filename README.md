@@ -52,7 +52,7 @@ After getting the outputs for all runs, execute the ensemble_TF.py to ensemble T
 ```sh
 python ensemble_TF.py --runs 10
 ```
-You can find the generate ensembled TF activities from 10 runs of CITURS model at https://sites.pitt.edu/~xim33/CITRUS
+You can find the generated ensemble_TF activities from 10 runs of CITURS model at https://sites.pitt.edu/~xim33/CITRUS
 
 ## Explore CITRUS model
 
