@@ -245,10 +245,10 @@ dataset_out = {
     "can": dataset["can"],    # cancer type list
     "gene_emb": gene_emb,     # gene embedding
     "tf_gene": model.layer_w_2.weight.data.cpu().numpy(),  # trained weight of tf_gene constrains
-    'labels_test':labels_test,      # measured exp on test set
-    'preds_test':preds_test,        # predicted exp on test set
-    'tmr_test':tmr_test,            # tumor list on test set
-    'can_test':dataset_test['can']  # cancer type list on test set
+    "labels_test":labels_test,      # measured exp on test set
+    "preds_test":preds_test,        # predicted exp on test set
+    "tmr_test":tmr_test,            # tumor list on test set
+    "can_test":dataset_test["can"]  # cancer type list on test set
 }
 
 with open(os.path.join(args.output_dir, "output_{}_{}{}.pkl".format(args.dataset_name, args.run_count, args.tag)), "wb") as f:
