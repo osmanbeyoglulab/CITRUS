@@ -1,12 +1,13 @@
 ## Introduction
 
-The repository contains the PyTorch implementation of CITRUS model in the paper: Tao Y*, Ma X*, Laliotis GI, Zuniga AG, Palmer D, Toska E, Schwartz R, Lu X, Osmanbeyoglu HU. [Interpretable deep learning for chromatin-informed inference of transcriptional programs driven by somatic alterations across cancers](https://www.biorxiv.org/content/10.1101/2021.09.07.459263v1). bioRxiv 2021:2021.2009.2007.459263..
+The repository contains the PyTorch implementation of CITRUS model in the paper: Tao Y*, Ma X*, Laliotis GI, Zuniga AG, Palmer D, Toska E, Schwartz R, Lu X, Osmanbeyoglu HU. [Interpretable deep learning for chromatin-informed inference of transcriptional programs driven by somatic alterations across cancers](https://www.biorxiv.org/content/10.1101/2021.09.07.459263v1). bioRxiv 2021:2021.2009.2007.459263.
 
-CITRUS(Chromatin-informed Inference of Transcriptional Regulators Using Self-attention mechanism) is a partially interpretable deep neural network modeling the impact of somatic alterations on cellular states onto downstream gene expression patterns within context-speciﬁc transcriptional programs.  The model follows an overall encoder-decoder architecture, while the encoder module employs a self-attention mechanism to model the contextual functional impact of somatic alterations in a tumor-specific manner and the decoder uses a layer of hidden nodes to explicitly represent the state of transcription factors (TFs).
+CITRUS (Chromatin-informed Inference of Transcriptional Regulators Using Self-attention mechanism) is a partially interpretable deep neural network modeling the impact of somatic alterations on cellular states onto downstream gene expression patterns within context-speciﬁc transcriptional programs.  The model follows an overall encoder-decoder architecture. The encoder module employs a self-attention mechanism to model the contextual functional impact of somatic alterations in a tumor-specific manner, and the decoder uses a layer of hidden nodes to explicitly represent the state of transcription factors (TFs).
 
 ## Data
-There are three major datasets used to train CITRUS model: Somatica alteration gene matrix(SGA), gene expression matrix (GEP),  and TF-target gene matrix. They included 5803 samples with seventeen different tumor types from TCGA. SGA is originally a binary matrix containing 11998 genes with 1 as having a distinct mutation or copy number alteration and 0 as none of them. We transformed the sparse binary SGA into index lists to facilitate gene embedding. GEP contains continuous values of gene expression with filtered 5541 genes by considering top variant genes in each cancer type as well as gene availability in TF-target gene matrix.  We packaged those matrices as well as cancer types, tumor barcodes, etc. into a pickle file for fast processing and convenient delivery.
-   
+
+There are three major datasets used to train CITRUS model: Somatica alteration gene matrix (SGA), gene expression matrix (GEP), and TF-target gene matrix. They included 5803 samples with 17 different tumor types from TCGA. SGA is originally a binary matrix containing 11998 genes with 1 as having a distinct mutation or copy number alteration and 0 as none of them. We transformed the sparse binary SGA into index lists to facilitate gene embedding. GEP contains continuous values of gene expression with filtered 5541 genes by considering top variant genes in each cancer type as well as gene availability in TF-target gene matrix. We packaged those matrices as well as cancer types, tumor barcodes, etc. into a pickle file for fast processing and convenient delivery.
+
 The integrated dataset of the pickle file can be downloaded from https://sites.pitt.edu/~xim33/CITRUS
 
 You can explore the contents of the dataset by running:
@@ -16,7 +17,8 @@ data.keys()
 ```
 
 ## Prerequisites
-The code runs on python 3.7 and above. Besides python 3, some other packages such as PyTorch, Pandas, Numpy, scikit-learn, Scipy are used. We have tested our code on torch version 1.2.0 (Windows), torch version 1.5.1+cu101 (Linus), torch version 1.9.0 (Mac)
+
+The code runs on python 3.7 and above. Besides python 3, some other packages such as PyTorch, Pandas, Numpy, scikit-learn, Scipy are used. We have tested our code on torch version 1.2.0 (Windows), torch version 1.5.1+cu101 (Linux), torch version 1.9.0 (Mac)
 
 It is recommended to install PyTorch through the Anaconda package manager since it installs all dependencies. If you installed the Anaconda distribution of Python 3.7 and above, Pandas, Numpy, scikit-learn, Scipy come pre-installed and no further installation steps are necessary.
 
@@ -28,7 +30,7 @@ https://docs.anaconda.com/anaconda/install/index.html
     conda create --name myenv
     conda activate myenv
 ```
-3.  Install PyTorch in the conda environment. The installation command will be slightly different depending on your computer operating system and hardware configuration. You can get customized installation command by visiting PyTorch support site:https://pytorch.org/get-started/locally/. For example, on a Window system with CUDA support, you may install PyTorch by running
+3.  Install PyTorch in the conda environment. The installation command will be slightly different depending on your computer operating system and hardware configuration. You can get customized installation command by visiting PyTorch support site: https://pytorch.org/get-started/locally/. For example, on a Window system with CUDA support, you may install PyTorch by running
 ```sh
     conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
  ```  
@@ -46,9 +48,9 @@ for (( i = 1; N <= 10; i++ )); do
     python run_CITRUS.py --tag i
 done
 ```
-After getting the outputs for all runs, execute the TF_ensemble.py to ensemble TF activities
+After getting the outputs for all runs, execute the ensemble_TF.py to ensemble TF activities
 ```sh
-python TF_ensemble.py --runs 10
+python ensemble_TF.py --runs 10
 ```
 You can find the generate ensembled TF activities from 10 runs of CITURS model at https://sites.pitt.edu/~xim33/CITRUS
 
@@ -202,7 +204,7 @@ parser.add_argument(
 ```
 When training dataset other than provided. It is better to re-tune these parameters. The following command shows the way to train the model with the learning rate as 1e-4, and use the activation function as 'relu'
 ```sh
-python run_CITRUS.py --learning_rate 1e-4 --activation 'relu'
+python run_CITRUS.py --learning_rate 1e-4 --activation "relu"
 ```
 **Extract contents from CITRUS output**
 
@@ -223,7 +225,7 @@ dataset_out = {
     'labels_test':labels_test,      # measured exp on test set
     'preds_test':preds_test,        # predicted exp on test set
     'tmr_test':tmr_test,            # tumor list on test set
-    'can_test':dataset_test['can']  # cancer type list on test set
+    'can_test':dataset_test["can"]  # cancer type list on test set
 }
 ```
 The dictionary object was saved as a pickle file on disk. To extract the contents of output. First read in the pickle file
@@ -234,10 +236,9 @@ output_data = pickle.load(open("./data/output_dataset_CITRUS.pkl", "rb"))
 
 Here are a few demos to extract the elements from output object. 
 ```sh
-gene_prediction = output_data['preds']
-attention_weight = output_data['attn_wt']
-gene_embedding= output_data['gene_emb']
-tumor_embedding = output_data['emb_tmr']
-TF_activity = output_data['hid_tmr']
+gene_prediction = output_data["preds"]
+attention_weight = output_data["attn_wt"]
+gene_embedding= output_data["gene_emb"]
+tumor_embedding = output_data["emb_tmr"]
+TF_activity = output_data["hid_tmr"]
 ```
-
