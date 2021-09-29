@@ -45,7 +45,7 @@ We use the ensemble method to further stabilize TF activity which is a hidden la
 To generate ensembled TF activity, First run the model 10 times
 ```sh
 for (( i = 1; N <= 10; i++ )); do
-    python run_CITRUS.py --run_count i
+    python run_CITRUS.py --run_count $i
 done
 ```
 After getting the outputs for all runs, execute the ensemble_TF.py to ensemble TF activities
