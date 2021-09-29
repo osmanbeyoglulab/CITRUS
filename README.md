@@ -135,6 +135,12 @@ parser.add_argument(
     default=1e-3
 )
 parser.add_argument(
+    "--weight_decay",
+    help="coefficient of l2 regularizer",
+    type=float,
+    default=1e-5
+)
+parser.add_argument(
     "--max_iter",
     help="maximum number of training iterations",
     type=int,
@@ -163,12 +169,6 @@ parser.add_argument(
     help="dropout rate",
     type=float,
     default=0.2
-)
-parser.add_argument(
-    "--weight_decay",
-    help="coefficient of l2 regularizer",
-    type=float,
-    default=1e-5
 )
 parser.add_argument(
     "--activation",
