@@ -54,14 +54,14 @@ for i in range(1,Ntf+1):
     dataset = pickle.load( open(os.path.join(args.output_dir,"output_dataset_CITRUS_{}.pkl".format(i)), "rb") )
     run.append(dataset) 
 
-tf = list()
+tfs = list()
 for i in range(Ntf):
-    tf.append(run[i]["hid_tmr"])
+    tfs.append(run[i]["hid_tmr"])
 
 ## genereate ensemble tf activity matrix
 tf_ensemble = 0
 for i in range(Ntf):
-    tf_ensemble += tf[i]
+    tf_ensemble += tfs[i]
     
 tf_ensemble = tf_ensemble/Ntf
 
