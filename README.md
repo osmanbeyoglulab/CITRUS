@@ -1,6 +1,6 @@
 ## Introduction
 
-The repository contains the PyTorch implementation of CITRUS model in the paper: Tao Y*, Ma X*, Laliotis GI, Zuniga AG, Palmer D, Toska E, Schwartz R, Lu X, Osmanbeyoglu HU. [Interpretable deep learning for chromatin-informed inference of transcriptional programs driven by somatic alterations across cancers](https://www.biorxiv.org/content/10.1101/2021.09.07.459263v3). bioRxiv 2021:2021.2009.2007.459263.
+The repository contains the PyTorch implementation of CITRUS model in the paper: Tao Y*, Ma X*, Laliotis GI, Zuniga AG, Palmer D, Toska E, Schwartz R, Lu X, Osmanbeyoglu HU. [Interpretable deep learning for chromatin-informed inference of transcriptional programs driven by somatic alterations across cancers](https://www.biorxiv.org/content/10.1101/2021.09.07.459263v3.full). bioRxiv 2021:2021.2009.2007.459263.
 
 CITRUS (Chromatin-informed Inference of Transcriptional Regulators Using Self-attention mechanism) is a partially interpretable deep neural network modeling the impact of somatic alterations on cellular states onto downstream gene expression patterns within context-speciﬁc transcriptional programs.  The model follows an overall encoder-decoder architecture. The encoder module employs a self-attention mechanism to model the contextual functional impact of somatic alterations in a tumor-specific manner, and the decoder uses a layer of hidden nodes to explicitly represent the state of transcription factors (TFs).
 
